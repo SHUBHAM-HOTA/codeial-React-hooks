@@ -50,7 +50,7 @@ function App() {
 
           <Route exact path="/user/asdasd" element={<UserInfo />} />
 
-          <Route element={<Page404 />} />
+          <Route path="*" element={<Page404 />} />
         </Routes>
       </div>
     </Router>
