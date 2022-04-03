@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Comment, Loader } from '../components';
 import { getPosts } from '../api';

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 //import { getPosts } from '../api';
 import { useAuth } from '../hooks';
-import { Home, Login } from '../pages';
+import { Home, Login, Signup } from '../pages';
 import { Loader, Navbar } from './';
 
 const About = () => {
@@ -50,6 +50,8 @@ function App() {
           <Route exact path="/login" element={<Login />} />
 
           <Route exact path="/About" element={<About />} />
+
+          <Route exact path="/register" element={<Signup />} />
 
           <Route exact path="/user/asdasd" element={<UserInfo />} />
 
