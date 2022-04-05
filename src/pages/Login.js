@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useToasts } from 'react-toast-notifications';
+import { Navigate } from 'react-router-dom';
 
 //import { login } from '../api';
 import styles from '../styles/login.module.css';
@@ -38,6 +39,10 @@ const Login = () => {
 
     setLoggingIn(false);
   };
+
+  if (auth.user) {
+    return <Navigate to="/" />;
+  }
   return (
     <form className={styles.loginForm} onSubmit={handleSubmit}>
       <span className={styles.loginSignupHeader}>Log In</span>
