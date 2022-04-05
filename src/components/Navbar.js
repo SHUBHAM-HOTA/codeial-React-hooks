@@ -21,7 +21,7 @@ const Navbar = () => {
           <div className={styles.user}>
             <Link to="/settings">
               <img
-                src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
+                src="https://cdn-icons-png.flaticon.com/512/1177/1177568.png"
                 alt=""
                 className={styles.userDp}
               />

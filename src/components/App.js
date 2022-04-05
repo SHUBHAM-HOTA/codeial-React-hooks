@@ -6,14 +6,6 @@ import { useAuth } from '../hooks';
 import { Home, Login, Signup, Settings } from '../pages';
 import { Loader, Navbar } from './';
 
-const About = () => {
-  return <h1>About</h1>;
-};
-
-const UserInfo = () => {
-  return <h1>User</h1>;
-};
-
 const Page404 = () => {
   return <h1>404</h1>;
 };
@@ -49,13 +41,9 @@ function App() {
 
           <Route exact path="/login" element={<Login />} />
 
-          <Route exact path="/About" element={<About />} />
-
           <Route exact path="/register" element={<Signup />} />
 
           <Route exact path="/settings" element={<Settings />} />
-
-          <Route exact path="/user/asdasd" element={<UserInfo />} />
 
           <Route path="*" element={<Page404 />} />
         </Routes>
