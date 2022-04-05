@@ -1,17 +1,16 @@
-import styles from '../styles/settings.module.css';
-import { useAuth } from '../hooks';
 import { useState } from 'react';
 import { useToasts } from 'react-toast-notifications';
-import { clear } from '@testing-library/user-event/dist/clear';
+
+import styles from '../styles/settings.module.css';
+import { useAuth } from '../hooks';
 
 const Settings = () => {
   const auth = useAuth();
-
   const [editMode, setEditMode] = useState(false);
-  const [name, setName] = useState(auth.user.name ? auth.user.name : '');
+  const [name, setName] = useState(auth.user?.name ? auth.user.name : '');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [savingForm, setSavingForm] = useState('');
+  const [savingForm, setSavingForm] = useState(false);
   const { addToast } = useToasts();
 
   const clearForm = () => {
@@ -21,12 +20,13 @@ const Settings = () => {
 
   const updateProfile = async () => {
     setSavingForm(true);
-    let error = false;
 
+    let error = false;
     if (!name || !password || !confirmPassword) {
       addToast('Please fill all the fields', {
         appearance: 'error',
       });
+
       error = true;
     }
 
@@ -34,12 +34,14 @@ const Settings = () => {
       addToast('Password and confirm password does not match', {
         appearance: 'error',
       });
+
       error = true;
     }
 
     if (error) {
       return setSavingForm(false);
     }
+
     const response = await auth.updateUser(
       auth.user._id,
       name,
@@ -47,6 +49,7 @@ const Settings = () => {
       confirmPassword
     );
 
+    console.log('settings response', response);
     if (response.success) {
       setEditMode(false);
       setSavingForm(false);
@@ -120,13 +123,13 @@ const Settings = () => {
               onClick={updateProfile}
               disabled={savingForm}
             >
-              {savingForm ? 'Saving Profile...' : 'Save Profile'}
+              {savingForm ? 'Saving profile...' : 'Save profile'}
             </button>
             <button
               className={`button ${styles.editBtn}`}
               onClick={() => setEditMode(false)}
             >
-              Go Back
+              Go back
             </button>
           </>
         ) : (

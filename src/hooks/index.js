@@ -33,6 +33,11 @@ export const useProvideAuth = () => {
 
     if (response.success) {
       setUser(response.data.user);
+      //because we want to update the token in local storage
+      setItemInLocalStorage(
+        LOCALSTORAGE_TOKEN_KEY,
+        response.data.token ? response.data.token : null
+      );
 
       return {
         success: true,
