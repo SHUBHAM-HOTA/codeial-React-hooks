@@ -5,10 +5,14 @@ import { Link } from 'react-router-dom';
 import { Comment, Loader } from '../components';
 import { getPosts } from '../api';
 import styles from '../styles/home.module.css';
+import { useAuth } from '../hooks';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState([]);
+
+  const auth = useAuth();
+  console.log('auth', auth);
 
   //console.log(posts);
 
@@ -42,9 +46,9 @@ const Home = () => {
                 <Link
                   to={{
                     pathname: `/user/${post.user._id}`,
-                    state: {
-                      user: post.user,
-                    },
+                    // state: {
+                    //   user: post.user,
+                    // },
                   }}
                   className={styles.postAuthor}
                 >

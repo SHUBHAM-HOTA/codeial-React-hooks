@@ -21,11 +21,14 @@ const UserProfile = () => {
 
       if (response.success) {
         setUser(response.data.user);
+        console.log('its working and the user is', response.data.user);
       } else {
         addToast(response.message, {
           appearance: 'error',
         });
-        return history.push('/');
+        //return history.push('/');
+        //user only url with  history in v6
+        return history('/');
       }
       setLoading(false);
     };
@@ -42,7 +45,13 @@ const UserProfile = () => {
   }
 
   const checkIfUserIsAFriend = () => {
-    const friends = auth.user.friends;
+    //console.log('check here', auth.user);
+    let friends;
+    if (!auth.user.friends) {
+      friends = [];
+    } else {
+      friends = auth.user.friends;
+    }
 
     const friendIds = friends.map((friend) => friend.to_user._id);
     const index = friendIds.indexOf(userId);
