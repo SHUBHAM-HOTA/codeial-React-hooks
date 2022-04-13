@@ -1,9 +1,30 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks';
+
 import styles from '../styles/navbar.module.css';
+import { useAuth } from '../hooks';
+import { searchUsers } from '../api';
 
 const Navbar = () => {
+  const [results, setResults] = useState([]);
+  const [searchText, setSearchText] = useState('');
   const auth = useAuth();
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await searchUsers(searchText);
+
+      if (response.success) {
+        setResults(response.data.users);
+      }
+    };
+
+    if (searchText.length > 2) {
+      fetchUsers();
+    } else {
+      setResults([]);
+    }
+  }, [searchText]);
 
   return (
     <div className={styles.nav}>
@@ -16,12 +37,48 @@ const Navbar = () => {
         </Link>
       </div>
 
+      <div className={styles.searchContainer}>
+        <img
+          className={styles.searchIcon}
+          src="https://cdn-icons.flaticon.com/png/512/954/premium/954591.png?token=exp=1649843149~hmac=696211df86704a57e3de081b196fe473"
+          alt=""
+        />
+
+        <input
+          placeholder="Search users"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+
+        {results.length > 0 && (
+          <div className={styles.searchResults}>
+            <ul>
+              {results.map((user) => (
+                <li
+                  className={styles.searchResultsRow}
+                  key={`user-${user._id}`}
+                >
+                  {/* <Link to={`/user/${user._id}`}> */}
+                  <Link to={'/user/' + user._id}>
+                    <img
+                      src="https://cdn-icons.flaticon.com/png/512/1144/premium/1144709.png?token=exp=1649843095~hmac=1dde8d4f64dfd98cda1d5ad605815bc9"
+                      alt=""
+                    />
+                    <span>{user.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
       <div className={styles.rightNav}>
         {auth.user && (
           <div className={styles.user}>
             <Link to="/settings">
               <img
-                src="https://cdn-icons-png.flaticon.com/512/1177/1177568.png"
+                src="https://cdn-icons.flaticon.com/png/512/1144/premium/1144709.png?token=exp=1649843095~hmac=1dde8d4f64dfd98cda1d5ad605815bc9"
                 alt=""
                 className={styles.userDp}
               />
@@ -41,9 +98,8 @@ const Navbar = () => {
                 <li>
                   <Link to="/login">Log in</Link>
                 </li>
-
                 <li>
-                  <a href="/">Register</a>
+                  <Link to="/register">Register</Link>
                 </li>
               </>
             )}
